@@ -6,6 +6,8 @@ application up and running.
 Things you may want to cover:
 
 * Ruby version
+Refer to the .ruby-version file to add the correct version of ruby.
+The recommended approach is to use rbenv.
 
 * System dependencies
 
