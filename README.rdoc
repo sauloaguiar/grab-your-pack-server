@@ -19,6 +19,14 @@ The recommended approach is to use rbenv.
 
 * How to run the test suite
 
+Use rspec <path-to-spec> to run a test
+If you get a error output regarding different versions in gems, you need to run
+the rspec calling
+bundle exec rspec <path-to-spec>
+
+in order to make this easy, consider creating an alias in your ~/.bash_profile
+alias be="bundle exec"
+
 * Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions
