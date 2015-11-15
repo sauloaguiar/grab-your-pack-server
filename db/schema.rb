@@ -11,10 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151112214238) do
+ActiveRecord::Schema.define(version: 20151115024056) do
 
   create_table "apartments", force: :cascade do |t|
     t.string   "unit"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "building_id"
+  end
+
+  add_index "apartments", ["building_id"], name: "index_apartments_on_building_id"
+
+  create_table "buildings", force: :cascade do |t|
+    t.string   "address_1"
+    t.string   "address_2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.string   "zip_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
