@@ -19,6 +19,11 @@ class Api::BuildingsController < ApplicationController
     end
   end
 
+  def destroy
+    Building.find(params[:id]).destroy
+    head 204
+  end
+
   def show
     respond_to do |format|
       format.any(:json) { render request.format.to_sym => Building.find(params[:id]) }

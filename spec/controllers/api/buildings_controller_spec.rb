@@ -94,4 +94,15 @@ describe Api::BuildingsController, type: :controller do
       end
     end
   end
+
+  describe "DELETE #destroy" do
+    before do
+      building = create_building
+      delete :destroy, { id: building.id }, format: :json
+    end
+
+    it "should answer with 204" do
+      expect(response).to have_http_status(204)
+    end
+  end
 end
