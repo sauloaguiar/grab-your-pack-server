@@ -10,6 +10,15 @@ class Api::BuildingsController < ApplicationController
     end
   end
 
+  def update
+    building = Building.find(params[:id])
+    if building.update(request_params)
+      render json: building, status: 200, location: [:api, building]
+    else
+      render json: { errors: building.errors }, status: 422
+    end
+  end
+
   def show
     respond_to do |format|
       format.any(:json) { render request.format.to_sym => Building.find(params[:id]) }

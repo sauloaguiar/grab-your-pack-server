@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     scope constraints: ApiConstraints.new do
 
       # Resource listing under here
-      resources :buildings, :only => [:show, :create]
+      resources :buildings, :only => [:show, :create, :update]
     end
 
   end

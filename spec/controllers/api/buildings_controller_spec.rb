@@ -54,9 +54,42 @@ describe Api::BuildingsController, type: :controller do
         expect(response).to have_http_status(422)
       end
 
-      it "returns a error explanation on why the building wasn't created" do
+      it "returns an error explanation on why the building wasn't created" do
         server_response = JSON.parse(response.body, symbolize_names: true)
         expect(server_response[:errors][:address_1]).to include("can't be blank")
+        expect(response).to have_http_status(422)
+      end
+    end
+  end
+
+  describe "PUT/PATCH #update" do
+    context "when it is succesfully updated" do
+      before do
+        building = create_building
+        patch :update, { id: building.id, building: { address_1: "5th Av" } }, format: :json
+      end
+      it "returns the json representation for the updated user" do
+        server_response = JSON.parse(response.body, symbolize_names: true)
+        expect(server_response[:address_1]).to eq("5th Av")
+        expect(response).to have_http_status(200)
+      end
+    end
+
+    context "when it is not updated" do
+      before do
+        building = create_building
+        patch :update, { id: building.id, building: { address_1: nil }}, format: :json
+      end
+
+      it "returns an error on json" do
+        server_response = JSON.parse(response.body, symbolize_names: true)
+        expect(server_response).to include(:errors)
+        expect(response).to have_http_status(422)
+      end
+
+      it "returns an error explanation why the building was not updated" do
+        server_response = JSON.parse(response.body, symbolize_names: true)
+        expect(server_response[:errors][:address_1]).to include "can't be blank"
         expect(response).to have_http_status(422)
       end
     end
