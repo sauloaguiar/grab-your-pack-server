@@ -6,8 +6,10 @@ Rails.application.routes.draw do
 
   # Api Definition
   namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/' do
-    scope module: :v1, constraints: ApiConstraints.new do
+    scope constraints: ApiConstraints.new do
 
+      # Resource listing under here
+      resources :buildings, :only => [:show, :create]
     end
 
   end
