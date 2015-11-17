@@ -17,6 +17,16 @@ The recommended approach is to use rbenv.
 
 * Database initialization
 
+We're using postgresql as the database.
+Make sure you have it installed and running prior to the app initialization.
+Then run
+
+  rake db:create:all
+  rake db:migrate
+
+So all the databases (test, development and production) are created
+and that the application schema will be applied to them.
+
 * How to run the test suite
 
 Use rspec <path-to-spec> to run a test

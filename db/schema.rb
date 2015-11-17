@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20151115024056) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "apartments", force: :cascade do |t|
     t.string   "unit"
     t.datetime "created_at",  null: false
@@ -20,7 +23,7 @@ ActiveRecord::Schema.define(version: 20151115024056) do
     t.integer  "building_id"
   end
 
-  add_index "apartments", ["building_id"], name: "index_apartments_on_building_id"
+  add_index "apartments", ["building_id"], name: "index_apartments_on_building_id", using: :btree
 
   create_table "buildings", force: :cascade do |t|
     t.string   "address_1"
