@@ -29,5 +29,85 @@ RSpec.describe Api::UsersController, type: :controller do
     end
   end
 
+  describe "POST #create" do
+    context "when the user is succesfully created" do
+      before do
+        @user = create_person.attributes
+        @user['email'] = Faker::Internet.email
+        post :create, { user: @user }, format: :json
+      end
+
+      it "returns the json of the newly created record" do
+        server_response = JSON.parse(response.body, symbolize_names: true)
+        expect(server_response[:email]).to eq(@user['email'])
+        expect(response).to have_http_status(201)
+      end
+    end
+
+    context "when the user is not created" do
+      before do
+        @user = create_person({:email => nil}).attributes
+        post :create, { user: @user}, format: :json
+      end
+
+      it "returns a json containing an errors key" do
+        server_response = JSON.parse(response.body, symbolize_names: true)
+        expect(server_response).to include(:errors)
+        expect(response).to have_http_status(422)
+      end
+
+      it "returns an explanation on why the user was not created" do
+        server_response = JSON.parse(response.body, symbolize_names: true)
+        expect(server_response[:errors][:email]).to include("can't be blank")
+        expect(response).to have_http_status(422)
+      end
+
+    end
+  end
+
+  describe "PUT/PATCH #update" do
+    context "when it is succesfully updated" do
+      before do
+        @user = create_person
+        patch :update, { id: @user.id, user: { email: "name@email.com" } }, format: :json
+      end
+
+      it "returns the json representation of the updated user" do
+        server_response = JSON.parse(response.body, symbolize_names: true)
+        expect(server_response[:email]).to eq("name@email.com")
+        expect(response).to have_http_status(200)
+      end
+    end
+
+    context "when it is not updated" do
+      before do
+        @user = create_person
+        patch :update, { id: @user.id, user: { email: "" } }, format: :json
+      end
+
+      it "returns a json containing an errors key" do
+        server_response = JSON.parse(response.body, symbolize_names: true)
+        expect(server_response).to include(:errors)
+        expect(response).to have_http_status(422)
+      end
+
+      it "has an explanation on why the user wasn't updated" do
+        server_response = JSON.parse(response.body, symbolize_names: true)
+        expect(server_response[:errors][:email]).to include("can't be blank")
+        expect(response).to have_http_status(422)
+      end
+    end
+  end
+
+  describe "DELETE #destroy" do
+    before do
+      @user = create_person
+      delete :destroy, { id: @user.id }, format: :json
+    end
+
+    it "should answer with a 204" do
+      expect(response).to have_http_status(204)
+    end
+  end
 
 end
