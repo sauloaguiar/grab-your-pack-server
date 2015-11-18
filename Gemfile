@@ -37,6 +37,9 @@ gem 'puma'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Using faker to generate fake data for the db
+gem 'faker'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -44,7 +47,6 @@ group :development, :test do
 end
 
 group :test do
-  gem 'faker'
   gem 'capybara'
   gem 'guard-rspec'
   gem 'launchy'
@@ -60,5 +62,4 @@ end
 
 group :production do
   gem 'rails_12factor'
-  gem 'faker'
 end
