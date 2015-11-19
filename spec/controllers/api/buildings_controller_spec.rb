@@ -23,7 +23,7 @@ describe Api::BuildingsController, type: :controller do
 
     it "returns the information on a hash" do
       server_response = JSON.parse(response.body, symbolize_names: true)
-      expect(server_response[:address_1]).to eq(@building.address_1)
+      expect(server_response[:building][:address_1]).to eq(@building.address_1)
       expect(response).to have_http_status(200)
     end
   end
@@ -37,7 +37,7 @@ describe Api::BuildingsController, type: :controller do
 
       it "returns the json representation for the newly created record" do
         server_response = JSON.parse(response.body, symbolize_names: true)
-        expect(server_response[:address_1]).to eq(@building["address_1"])
+        expect(server_response[:building][:address_1]).to eq(@building["address_1"])
         expect(response).to have_http_status(201)
       end
     end
@@ -70,7 +70,7 @@ describe Api::BuildingsController, type: :controller do
       end
       it "returns the json representation for the updated user" do
         server_response = JSON.parse(response.body, symbolize_names: true)
-        expect(server_response[:address_1]).to eq("5th Av")
+        expect(server_response[:building][:address_1]).to eq("5th Av")
         expect(response).to have_http_status(200)
       end
     end

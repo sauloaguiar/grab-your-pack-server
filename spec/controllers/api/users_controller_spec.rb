@@ -4,6 +4,9 @@ RSpec.describe Api::UsersController, type: :controller do
 
   before {
     request.headers['Accept'] = 'application/vnd.grabyourpack'
+    #key = ApiKey.create!(:access_token => "token")
+    #request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials("token")
+    #p request
   }
 
   def create_person(attrs = {})
@@ -24,7 +27,7 @@ RSpec.describe Api::UsersController, type: :controller do
 
     it "returns the information about the user" do
       server_response = JSON.parse(response.body, symbolize_names: true)
-      expect(server_response[:email]).to eq("sample@email.com")
+      expect(server_response[:user][:email]).to eq("sample@email.com")
       expect(response).to have_http_status(200)
     end
   end
@@ -39,7 +42,7 @@ RSpec.describe Api::UsersController, type: :controller do
 
       it "returns the json of the newly created record" do
         server_response = JSON.parse(response.body, symbolize_names: true)
-        expect(server_response[:email]).to eq(@user['email'])
+        expect(server_response[:user][:email]).to eq(@user['email'])
         expect(response).to have_http_status(201)
       end
     end
@@ -74,7 +77,7 @@ RSpec.describe Api::UsersController, type: :controller do
 
       it "returns the json representation of the updated user" do
         server_response = JSON.parse(response.body, symbolize_names: true)
-        expect(server_response[:email]).to eq("name@email.com")
+        expect(server_response[:user][:email]).to eq("name@email.com")
         expect(response).to have_http_status(200)
       end
     end
