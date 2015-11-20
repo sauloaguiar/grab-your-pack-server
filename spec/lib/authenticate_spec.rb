@@ -1,0 +1,3 @@
+describe Authenticate do
+  
+end
