@@ -5,10 +5,12 @@ before_install:
 env:
   - DB=postgresql
 script:
-  - RAILS_ENV = test bundle exec rake --trace db:migrate test
+  - bundle exec rake db:migrate
+  - bundle exec rake db:test:prepare
+  - bundle exec rake spec
 before_script:
-  - psql -c 'create database grabyourpack_test;' -U postgres
+  - bundle exec rake db:create RAILS_ENV=test
 addons:
-  postgresql: "9.4.1"
+  postgresql: "9.3.5"
 services:
   - postgresql
