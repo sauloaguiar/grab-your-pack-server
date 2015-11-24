@@ -9,7 +9,7 @@ default: &default
   enconding: unicode
   pool: 5
   timeout: 5000
-  <<: *<%= ENV['DB'] || "postgresql" %>
+  #<<: *<%= ENV['DB'] || "postgresql" %>
 
 development:
   <<: *default

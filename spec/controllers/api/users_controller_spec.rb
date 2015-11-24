@@ -48,8 +48,6 @@ RSpec.describe Api::UsersController, type: :controller do
 
       it "returns the json of the newly created record" do
         server_response = JSON.parse(response.body, symbolize_names: true)
-        p server_response[:user][:email]
-        p user_data
         expect(response).to have_http_status(201)
         expect(server_response[:user][:email]).to eq(user_data[:email])
       end
