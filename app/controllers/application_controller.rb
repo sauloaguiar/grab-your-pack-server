@@ -18,17 +18,7 @@ class ApplicationController < ActionController::Base
   end
 
   def restrict_access
-    #require 'pry'; binding.pry;
-    #p request.headers
-    Authenticate.valid?(request)
-    # auth = request.headers['HTTP_AUTHORIZATION']
-    # # "Token token=<api-key>"
-    # authenticate_with_http_token do |token, options|
-    #   ApiKey.exists?(access_token: token)
-    # end
-    # if auth
-    #   api_key = auth.split(' ').last
-    #   ApiKey.exists?(access_token: api_key)
-    # end
+    authentication_token = request.headers['HTTP_AUTHORIZATION']
+    Authenticate.valid?(authentication_token)
   end
 end
