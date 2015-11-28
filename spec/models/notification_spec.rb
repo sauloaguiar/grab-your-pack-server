@@ -1,12 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Notification, type: :model do
-  # t.string   "notification_type"
-  # t.string   "discriminator"
-  # t.datetime "created_at",        null: false
-  # t.datetime "updated_at",        null: false
-  # t.integer  "person_id",         null: false
-
+  
   def create_person(attrs = {})
     default_attrs = {
       first_name: Faker::Name.first_name,

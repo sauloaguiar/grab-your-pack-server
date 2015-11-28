@@ -6,17 +6,17 @@ describe Api::BuildingsController, type: :controller do
     request.headers['Authorization'] = "Bearer #{key.access_token}"
   }
 
-  def create_building(attrs = {})
-    default_attrs = {
-      address_1: Faker::Address.street_address,
-      address_2: Faker::Address.secondary_address,
-      city: Faker::Address.city,
-      state: Faker::Address.state,
-      country: Faker::Address.country_code,
-      zip_code: Faker::Address.zip
-    }
-    Building.create(default_attrs.merge(attrs))
-  end
+  # def create_building(attrs = {})
+  #   default_attrs = {
+  #     address_1: Faker::Address.street_address,
+  #     address_2: Faker::Address.secondary_address,
+  #     city: Faker::Address.city,
+  #     state: Faker::Address.state,
+  #     country: Faker::Address.country_code,
+  #     zip_code: Faker::Address.zip
+  #   }
+  #   Building.create(default_attrs.merge(attrs))
+  # end
 
   describe "GET #show" do
     before(:each) do
@@ -25,7 +25,8 @@ describe Api::BuildingsController, type: :controller do
     end
 
     it "returns the information on a hash" do
-      server_response = JSON.parse(response.body, symbolize_names: true)
+      #server_response = JSON.parse(response.body, symbolize_names: true)
+      server_response = json_response
       expect(response).to have_http_status(200)
       expect(server_response[:building][:address_1]).to eq(@building.address_1)
     end
