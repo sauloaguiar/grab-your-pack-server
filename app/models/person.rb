@@ -5,6 +5,8 @@ class Person < ActiveRecord::Base
   has_many :occupants
   has_many :apartments, through: :occupants
 
+  has_many :notification
+
   def name
     [first_name, last_name].join " "
   end
