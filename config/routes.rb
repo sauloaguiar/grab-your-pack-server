@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       # Resource listing under here
       resources :buildings, :only => [:show, :create, :update, :destroy]
       resources :users, :only => [:show, :create, :update, :destroy]
+      resources :apartments, :only => [:show, :create, :update, :destroy]
     end
 
   end
