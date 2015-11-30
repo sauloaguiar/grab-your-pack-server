@@ -1,5 +1,10 @@
 class Api::ApartmentsController < ApplicationController
 
+  def index
+    apartments = Apartment.where(building_id: params[:building_id]).all
+    render json: apartments, status: 200
+  end
+
   def create
     apartment = Apartment.new(request_params)
     if apartment.save

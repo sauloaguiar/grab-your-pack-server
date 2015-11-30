@@ -11,16 +11,6 @@ RSpec.describe Api::UsersController, type: :controller do
     request.headers['Authorization'] = "Bearer #{key.access_token}"
   }
 
-  def create_person(attrs = {})
-    default_attrs = {
-      first_name: Faker::Name.first_name,
-      last_name: Faker::Name.last_name,
-      email: Faker::Internet.email,
-      phone: Faker::Number.number(10)
-    }
-    Person.create(default_attrs.merge(attrs))
-  end
-
   describe "GET #show" do
     before do
       @user = create_person({:email => "sample@email.com"})
@@ -28,7 +18,7 @@ RSpec.describe Api::UsersController, type: :controller do
     end
 
     it "returns the information about the user" do
-      server_response = JSON.parse(response.body, symbolize_names: true)
+      server_response = json_response
       expect(response).to have_http_status(200)
       expect(server_response[:user][:email]).to eq("sample@email.com")
     end
@@ -47,7 +37,7 @@ RSpec.describe Api::UsersController, type: :controller do
       end
 
       it "returns the json of the newly created record" do
-        server_response = JSON.parse(response.body, symbolize_names: true)
+        server_response = json_response
         expect(response).to have_http_status(201)
         expect(server_response[:user][:email]).to eq(user_data[:email])
       end
@@ -60,13 +50,13 @@ RSpec.describe Api::UsersController, type: :controller do
       end
 
       it "returns a json containing an errors key" do
-        server_response = JSON.parse(response.body, symbolize_names: true)
+        server_response = json_response
         expect(response).to have_http_status(422)
         expect(server_response).to include(:errors)
       end
 
       it "returns an explanation on why the user was not created" do
-        server_response = JSON.parse(response.body, symbolize_names: true)
+        server_response = json_response
         expect(response).to have_http_status(422)
         expect(server_response[:errors][:email]).to include("can't be blank")
       end
@@ -81,7 +71,7 @@ RSpec.describe Api::UsersController, type: :controller do
       end
 
       it "returns the json representation of the updated user" do
-        server_response = JSON.parse(response.body, symbolize_names: true)
+        server_response = json_response
         expect(response).to have_http_status(200)
         expect(server_response[:user][:email]).to eq("name@email.com")
       end
@@ -94,13 +84,13 @@ RSpec.describe Api::UsersController, type: :controller do
       end
 
       it "returns a json containing an errors key" do
-        server_response = JSON.parse(response.body, symbolize_names: true)
+        server_response = json_response
         expect(response).to have_http_status(422)
         expect(server_response).to include(:errors)
       end
 
       it "has an explanation on why the user wasn't updated" do
-        server_response = JSON.parse(response.body, symbolize_names: true)
+        server_response = json_response
         expect(response).to have_http_status(422)
         expect(server_response[:errors][:email]).to include("can't be blank")
       end

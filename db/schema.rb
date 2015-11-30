@@ -11,10 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151118223202) do
+ActiveRecord::Schema.define(version: 20151125201430) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "apartment_notifications", force: :cascade do |t|
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "apartment_id"
+    t.integer  "notification_id"
+  end
+
+  add_index "apartment_notifications", ["apartment_id"], name: "index_apartment_notifications_on_apartment_id", using: :btree
+  add_index "apartment_notifications", ["notification_id"], name: "index_apartment_notifications_on_notification_id", using: :btree
 
   create_table "apartments", force: :cascade do |t|
     t.string   "unit"
@@ -41,6 +51,16 @@ ActiveRecord::Schema.define(version: 20151118223202) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string   "notification_type"
+    t.string   "discriminator"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "person_id",         null: false
+  end
+
+  add_index "notifications", ["person_id"], name: "index_notifications_on_person_id", using: :btree
 
   create_table "occupants", force: :cascade do |t|
     t.datetime "created_at",   null: false

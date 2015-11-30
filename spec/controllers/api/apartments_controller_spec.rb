@@ -6,24 +6,35 @@ RSpec.describe Api::ApartmentsController, type: :controller do
     request.headers['Authorization'] = "Bearer #{key.access_token}"
   }
 
-  def create_building(attrs = {})
-    default_attrs = {
-      address_1: Faker::Address.street_address,
-      address_2: Faker::Address.secondary_address,
-      city: Faker::Address.city,
-      state: Faker::Address.state,
-      country: Faker::Address.country_code,
-      zip_code: Faker::Address.zip
-    }
-    Building.create(default_attrs.merge(attrs))
-  end
+  describe "GET #index" do
+    let(:apt1) { create_apartment(:building_id => nil) }
+    let(:apt2) { create_apartment(:building_id => nil) }
+    context "for an existing building" do
+      before do
+        @building = create_building
+        @building.apartments.push(apt1)
+        @building.apartments.push(apt2)
+        get :index, building_id: @building.id, format: :json
+      end
 
-  def create_apartment(attrs={})
-    default_attrs = {
-      unit: Faker::Address.building_number,
-      building: create_building
-    }
-    Apartment.create!(default_attrs.merge(attrs))
+      it "returns the json containing a list of apartments" do
+        server_response = json_response
+        expect(response).to have_http_status(200)
+        expect(server_response[:apartments][0][:id]).to eq(apt1.id)
+        expect(server_response[:apartments][1][:id]).to eq(apt2.id)
+      end
+    end
+
+    context "for a non-existent building" do
+      before do
+        get :index, building_id: 1, format: :json
+      end
+      it "returns an empty json array" do
+        server_response = json_response
+        expect(response).to have_http_status(200)
+        expect(server_response[:apartments].size).to be 0
+      end
+    end
   end
 
   describe "GET #show" do
@@ -33,7 +44,7 @@ RSpec.describe Api::ApartmentsController, type: :controller do
     end
 
     it "returns the information on a hash" do
-      server_response = JSON.parse(response.body, symbolize_names: true)
+      server_response = json_response
       expect(response).to have_http_status(200)
       expect(server_response[:apartment][:unit]).to eq(@apartment.unit)
     end
@@ -49,7 +60,7 @@ RSpec.describe Api::ApartmentsController, type: :controller do
         post :create, {apartment: apartment_data}, format: :json
       end
       it "returns the json representation of the newly created record" do
-        server_response = JSON.parse(response.body, symbolize_names: true)
+        server_response = json_response
         expect(response).to have_http_status(201)
         expect(server_response[:apartment][:unit]).to eq(apartment_data[:unit])
         expect(server_response[:apartment][:building_id]).to eq(apartment_data[:building_id])
@@ -65,12 +76,12 @@ RSpec.describe Api::ApartmentsController, type: :controller do
         post :create, { apartment: apartment_data}, format: :json
       end
       it "returns an error json notification" do
-        server_response = JSON.parse(response.body, symbolize_names: true)
+        server_response = json_response
         expect(response).to have_http_status(422)
         expect(server_response).to include(:errors)
       end
       it "returns an error explanation on why it wasn't created" do
-        server_response = JSON.parse(response.body, symbolize_names: true)
+        server_response = json_response
         expect(response).to have_http_status(422)
         expect(server_response[:errors][:unit]).to include("can't be blank")
       end
@@ -84,7 +95,7 @@ RSpec.describe Api::ApartmentsController, type: :controller do
         post :update, { id: apartment.id, apartment:{unit: "255"} }, format: :json
       end
       it "return the succesfully updated apartment" do
-        server_response = JSON.parse(response.body, symbolize_names: true)
+        server_response = json_response
         expect(response).to have_http_status(200)
         expect(server_response[:apartment][:unit]).to eq("255")
       end
@@ -96,12 +107,12 @@ RSpec.describe Api::ApartmentsController, type: :controller do
         post :update, { id: apartment.id, apartment:{unit: nil} }, format: :json
       end
       it "returns a json with error" do
-        server_response = JSON.parse(response.body, symbolize_names: true)
+        server_response = json_response
         expect(response).to have_http_status(422)
         expect(server_response).to include(:errors)
       end
       it "returns an error explanation why the apartment was not updated" do
-        server_response = JSON.parse(response.body, symbolize_names: true)
+        server_response = json_response
         expect(response).to have_http_status(422)
         expect(server_response[:errors][:unit]).to include("can't be blank")
       end

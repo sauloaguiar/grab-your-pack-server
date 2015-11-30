@@ -5,4 +5,8 @@ class Apartment < ActiveRecord::Base
   belongs_to :building
 
   validates :unit, :building_id, presence: true
+
+  has_many :apartment_notifications
+  has_many :notifications, through: :apartment_notifications
+
 end

@@ -2,16 +2,6 @@ require 'rails_helper'
 
 describe Person do
 
-  def create_person(attrs = {})
-    default_attrs = {
-      first_name: Faker::Name.first_name,
-      last_name: Faker::Name.last_name,
-      email: Faker::Internet.email,
-      phone: Faker::Number.number(10)
-    }
-    Person.create(default_attrs.merge(attrs))
-  end
-
   context "has a valid factory" do
     let(:person) { create_person() }
     it "should have a valid instance" do
@@ -74,5 +64,5 @@ describe Person do
       expect(person.name).to eq "Saulo Aguiar"
     end
   end
-  
+
 end
