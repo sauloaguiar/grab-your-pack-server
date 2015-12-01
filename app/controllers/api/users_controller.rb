@@ -1,5 +1,14 @@
 class Api::UsersController < ApplicationController
 
+  def index
+    person = Person.find_by(email: request[:email])
+    if person
+      render json: person, status: 200
+    else
+      render json: { error: "email #{request[:email]} not found" }, status: 404
+    end
+  end
+
   def create
     user = Person.create(person_params)
     if user.save
@@ -26,6 +35,7 @@ class Api::UsersController < ApplicationController
   end
 
   def show
+
     respond_to do |format|
       format.any(:json) { render request.format.to_sym => Person.find(params[:id]) }
     end

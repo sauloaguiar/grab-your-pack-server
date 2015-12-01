@@ -3,4 +3,5 @@ class ApartmentSerializer < ActiveModel::Serializer
   attributes :id, :unit, :building_id
 
   #has_one :building
+  #has_many :persons
 end

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       resources :buildings, :only => [:show, :create, :update, :destroy] do
         resources :apartments, :only => [:index]
       end
-      resources :users, :only => [:show, :create, :update, :destroy]
+      resources :users, :only => [:index, :show, :create, :update, :destroy]
       resources :apartments, :only => [:show, :create, :update, :destroy]
     end
 
