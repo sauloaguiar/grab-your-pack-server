@@ -3,7 +3,7 @@ class Api::NotificationsController < ApplicationController
     apartment = Apartment.where(id: params[:apartment_id]).first
     if apartment
       list = get_notification_list(apartment.notifications)
-      render json: { apartments: list }, status: 200
+      render json: { notifications: list }, status: 200
     else
       render json: { message: "Apartment #{params[:apartment_id]} not found" }, status: 404
     end
