@@ -20,7 +20,35 @@ def create_building(attrs = {})
   Building.create(default_attrs.merge(attrs))
 end
 
-100.times do |n|
-  building = create_building
-  building.save
+def create_person(attrs = {})
+  default_attrs = {
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    email: Faker::Internet.email,
+    phone: Faker::Number.number(10)
+  }
+  Person.create(default_attrs.merge(attrs))
 end
+
+def create_apartment(attrs={})
+  default_attrs = {
+      unit: Faker::Address.building_number,
+      building_id: create_building
+  }
+  Apartment.create(default_attrs.merge(attrs))
+end
+
+
+
+10.times do |n|
+  person = create_person
+  person.save
+
+  apto = create_apartment
+  apto.save
+end
+
+# 100.times do |n|
+#   building = create_building
+#   building.save
+# end
