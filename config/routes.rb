@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       resources :apartments, :only => [:show, :create, :update, :destroy] do
         resources :notifications, :only => [:index]
       end
+      resources :notifications, :only => [:create]
     end
 
   end
