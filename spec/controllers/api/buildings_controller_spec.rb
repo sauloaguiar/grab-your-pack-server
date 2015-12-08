@@ -58,6 +58,34 @@ describe Api::BuildingsController, type: :controller do
         expect(server_response[:errors][:address_1]).to include("can't be blank")
       end
     end
+
+    context "for a valid building containing apartments" do
+      let(:apartment_data) {{
+          unit: Faker::Address.building_number
+      }}
+      let(:building_data) {{
+          address_1: Faker::Address.street_address,
+          address_2: Faker::Address.secondary_address,
+          city: Faker::Address.city,
+          state: Faker::Address.state,
+          country: Faker::Address.country_code,
+          zip_code: Faker::Address.zip,
+          apartment_attributes: [
+            apartment_data,
+            apartment_data
+          ]
+      }}
+      before do
+        post :create, { building: building_data }, format: :json
+      end
+      it "returns a building object containing the apartment" do
+        server_response = json_response
+        expect(response).to have_http_status(201)
+        expect(server_response[:building][:address_1]).to eq(building_data[:address_1])
+        p server_response
+        #expect(server_response[:building][:apartments]).to eq(building_data[:address_1])
+      end
+    end
   end
 
   describe "PUT/PATCH #update" do

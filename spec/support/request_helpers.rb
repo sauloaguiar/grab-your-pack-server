@@ -44,7 +44,6 @@ module Models
     def create_notification(attrs = {})
       default_attrs = {
         notification_type: Faker::Address.state,
-        discriminator: Faker::Lorem.sentence(3),
         person: create_person
       }
       Notification.create(default_attrs.merge(attrs))

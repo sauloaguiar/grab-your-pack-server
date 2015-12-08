@@ -3,9 +3,11 @@ class Api::BuildingsController < ApplicationController
 
   def create
     building = Building.new(request_params)
+    building.apartments.build
     if building.save
       render json: building, status: 201, location: [:api, building]
     else
+      p building.errors
       render json: { errors: building.errors }, status: 422
     end
   end
@@ -32,6 +34,6 @@ class Api::BuildingsController < ApplicationController
 
   private
     def request_params
-      params.require(:building).permit(:address_1, :address_2, :city, :state, :country, :zip_code)
+      params.require(:building).permit(:address_1, :address_2, :city, :state, :country, :zip_code, apartments_attributes: [:id, :unit] )
     end
 end
