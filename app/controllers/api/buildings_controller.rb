@@ -1,14 +1,24 @@
+#require_relative '../../forms/'
 class Api::BuildingsController < ApplicationController
   #respond_to :json
 
+  # def create
+  #   building = Building.new(request_params)
+  #   p request_params
+  #   if building.save
+  #     render json: building, status: 201, location: [:api, building]
+  #   else
+  #     p building.errors
+  #     render json: { errors: building.errors }, status: 422
+  #   end
+  # end
+
   def create
-    building = Building.new(request_params)
-    building.apartments.build
-    if building.save
-      render json: building, status: 201, location: [:api, building]
+    @building_apartment_form = BuildingApartmentForm.new(request_params)
+    if @building_apartment_form.save
+      render json: @building_apartment_form.building, status: 201
     else
-      p building.errors
-      render json: { errors: building.errors }, status: 422
+      render json: { errors: @building_apartment_form.errors }, status: 422
     end
   end
 
@@ -34,6 +44,6 @@ class Api::BuildingsController < ApplicationController
 
   private
     def request_params
-      params.require(:building).permit(:address_1, :address_2, :city, :state, :country, :zip_code, apartments_attributes: [:id, :unit] )
+      params.require(:building).permit(:address_1, :address_2, :city, :state, :country, :zip_code, apartments: [:unit])
     end
 end

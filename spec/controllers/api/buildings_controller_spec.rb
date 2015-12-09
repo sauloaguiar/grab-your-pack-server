@@ -70,8 +70,7 @@ describe Api::BuildingsController, type: :controller do
           state: Faker::Address.state,
           country: Faker::Address.country_code,
           zip_code: Faker::Address.zip,
-          apartment_attributes: [
-            apartment_data,
+          apartments: [
             apartment_data
           ]
       }}
@@ -82,8 +81,7 @@ describe Api::BuildingsController, type: :controller do
         server_response = json_response
         expect(response).to have_http_status(201)
         expect(server_response[:building][:address_1]).to eq(building_data[:address_1])
-        p server_response
-        #expect(server_response[:building][:apartments]).to eq(building_data[:address_1])
+        expect(server_response[:building][:apartments][0][:unit]).to eq(apartment_data[:unit])
       end
     end
   end

@@ -43,6 +43,9 @@ gem 'active_model_serializers'#, git: 'git@github.com:rails-api/active_model_ser
 # Using faker to generate fake data for the db
 gem 'faker'
 
+# Using Virtus to easily create form objects
+gem 'virtus'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
