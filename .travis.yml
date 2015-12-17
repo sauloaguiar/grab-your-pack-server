@@ -1,16 +1,16 @@
 language: ruby
-sudo: false
+version:
+  - 2.1.5
 before_install:
   - gem install bundler
 env:
   - DB=postgresql
 script:
-  - bundle exec rake db:migrate
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
   - bundle exec rake db:test:prepare
-  - bundle exec rake spec
+  - bundle exec rake
 before_script:
-  - bundle exec rake db:create RAILS_ENV=test
-addons:
-  postgresql: "9.3.5"
+  - cp config/database.travis.yml config/database.yml
+  - psql -c 'create database grabyourpack_test;' -U postgres
 services:
   - postgresql
