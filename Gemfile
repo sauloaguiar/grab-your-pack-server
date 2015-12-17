@@ -40,6 +40,9 @@ gem 'active_model_serializers'#, git: 'git@github.com:rails-api/active_model_ser
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Using coveralls to check code coverage
+gem 'coveralls', require: false
+
 # Using faker to generate fake data for the db
 gem 'faker'
 

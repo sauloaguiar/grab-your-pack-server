@@ -1,6 +1,4 @@
 language: ruby
-version:
-  - 2.1.5
 before_install:
   - gem install bundler
 env:
@@ -14,3 +12,5 @@ before_script:
   - psql -c 'create database grabyourpack_test;' -U postgres
 services:
   - postgresql
+after_success:
+  - coveralls
