@@ -42,6 +42,21 @@ class Api::BuildingsController < ApplicationController
     end
   end
 
+  def by_address
+    building = Building.find_by(
+        address_1: request_params[:address_1],
+        address_2: request_params[:address_2],
+        city: request_params[:city],
+        state: request_params[:state],
+        country: request_params[:country],
+        zip_code: request_params[:zip_code])
+    if building
+      render json: { building: building }, status: 200
+    else
+      render json: { errors: "building address #{request_params[:address_1]} not found" } , status: 404
+    end
+  end
+
   private
     def request_params
       params.require(:building).permit(:address_1, :address_2, :city, :state, :country, :zip_code, apartments: [:unit])

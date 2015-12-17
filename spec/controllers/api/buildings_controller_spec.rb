@@ -129,4 +129,49 @@ describe Api::BuildingsController, type: :controller do
       expect(response).to have_http_status(204)
     end
   end
+
+  describe "GET #by_address" do
+    context "for an existing address" do
+      before do
+        @building = create_building
+        get :by_address,
+          {
+            building: {
+              address_1: @building.address_1,
+              address_2: @building.address_2,
+              city: @building.city,
+              state: @building.state,
+              country: @building.country,
+              zip_code: @building.zip_code
+            }
+          },
+          format: :json
+      end
+
+      it "returns the information on a json" do
+        server_response = json_response
+        expect(response).to have_http_status(200)
+        expect(server_response[:building][:address_1]).to eq(@building.address_1)
+      end
+    end
+
+    context "for an inexisting address" do
+      before do
+        @building_attrs = {
+          address_1: Faker::Address.street_address,
+          address_2: Faker::Address.secondary_address,
+          city: Faker::Address.city,
+          state: Faker::Address.state,
+          country: Faker::Address.country_code,
+          zip_code: Faker::Address.zip
+        }
+        get :by_address, { building: @building_attrs }, format: :json
+      end
+      it "returns an error message" do
+        server_response = json_response
+        expect(response).to have_http_status(404)
+        expect(server_response[:errors]).to include("building address #{@building_attrs[:address_1]} not found")
+      end
+    end
+  end
 end
