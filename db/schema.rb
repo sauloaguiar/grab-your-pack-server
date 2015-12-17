@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151204045417) do
+ActiveRecord::Schema.define(version: 20151217191013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(version: 20151204045417) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "buildings", ["address_1", "address_2", "city", "state", "country", "zip_code"], name: "unique_address", unique: true, using: :btree
 
   create_table "notifications", force: :cascade do |t|
     t.string   "notification_type"
