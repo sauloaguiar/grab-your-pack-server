@@ -136,16 +136,13 @@ describe Api::BuildingsController, type: :controller do
         @building = create_building
         get :by_address,
           {
-            building: {
               address_1: @building.address_1,
               address_2: @building.address_2,
               city: @building.city,
               state: @building.state,
               country: @building.country,
               zip_code: @building.zip_code
-            }
-          },
-          format: :json
+          }
       end
 
       it "returns the information on a json" do
@@ -165,7 +162,7 @@ describe Api::BuildingsController, type: :controller do
           country: Faker::Address.country_code,
           zip_code: Faker::Address.zip
         }
-        get :by_address, { building: @building_attrs }, format: :json
+        get :by_address, @building_attrs
       end
       it "returns an error message" do
         server_response = json_response

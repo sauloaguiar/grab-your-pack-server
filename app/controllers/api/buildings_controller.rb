@@ -1,17 +1,4 @@
-#require_relative '../../forms/'
 class Api::BuildingsController < ApplicationController
-  #respond_to :json
-
-  # def create
-  #   building = Building.new(request_params)
-  #   p request_params
-  #   if building.save
-  #     render json: building, status: 201, location: [:api, building]
-  #   else
-  #     p building.errors
-  #     render json: { errors: building.errors }, status: 422
-  #   end
-  # end
 
   def create
     @building_apartment_form = BuildingApartmentForm.new(request_params)
@@ -44,16 +31,16 @@ class Api::BuildingsController < ApplicationController
 
   def by_address
     building = Building.find_by(
-        address_1: request_params[:address_1],
-        address_2: request_params[:address_2],
-        city: request_params[:city],
-        state: request_params[:state],
-        country: request_params[:country],
-        zip_code: request_params[:zip_code])
+        address_1: params[:address_1],
+        address_2: params[:address_2],
+        city: params[:city],
+        state: params[:state],
+        country: params[:country],
+        zip_code: params[:zip_code])
     if building
       render json: { building: building }, status: 200
     else
-      render json: { errors: "building address #{request_params[:address_1]} not found" } , status: 404
+      render json: { errors: "building address #{params[:address_1]} not found" } , status: 404
     end
   end
 
