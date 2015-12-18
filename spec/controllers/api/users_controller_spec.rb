@@ -106,9 +106,28 @@ RSpec.describe Api::UsersController, type: :controller do
   end
 
   describe "GET #search" do
-    context "" do
+    context "for a existing user" do
       before do
+        @user = create_person
+        get :index, { email: @user.email }
+      end
 
+      it "should return a JSON containing the user data" do
+        server_response = json_response
+        expect(response).to have_http_status(200)
+        expect(server_response[:user][:email]).to eq(@user.email)
+      end
+    end
+
+    context "for a inexistent user" do
+      before do
+        get :index, { email: "test@email.com" }
+      end
+
+      it "should return a JSON containing an error message" do
+        server_response = json_response
+        expect(response).to have_http_status(404)
+        expect(server_response[:error]).to include("email test@email.com not found")
       end
     end
 
