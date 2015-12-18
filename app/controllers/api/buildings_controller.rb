@@ -31,12 +31,12 @@ class Api::BuildingsController < ApplicationController
 
   def by_address
     building = Building.find_by(
-        address_1: params[:address_1],
-        address_2: params[:address_2],
-        city: params[:city],
-        state: params[:state],
-        country: params[:country],
-        zip_code: params[:zip_code])
+        address_1: building_search_params[:address_1],
+        address_2: building_search_params[:address_2],
+        city: building_search_params[:city],
+        state: building_search_params[:state],
+        country: building_search_params[:country],
+        zip_code: building_search_params[:zip_code])
     if building
       render json: { building: building }, status: 200
     else
@@ -45,7 +45,10 @@ class Api::BuildingsController < ApplicationController
   end
 
   private
-    def request_params
-      params.require(:building).permit(:address_1, :address_2, :city, :state, :country, :zip_code, apartments: [:unit])
-    end
+  def building_search_params
+    params.permit(:address_1, :address_2, :city, :state, :country, :zip_code)
+  end
+  def request_params
+    params.require(:building).permit(:address_1, :address_2, :city, :state, :country, :zip_code, apartments: [:unit])
+  end
 end
