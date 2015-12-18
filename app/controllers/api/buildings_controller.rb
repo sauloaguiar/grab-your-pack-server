@@ -29,14 +29,8 @@ class Api::BuildingsController < ApplicationController
     end
   end
 
-  def by_address
-    building = Building.find_by(
-        address_1: building_search_params[:address_1],
-        address_2: building_search_params[:address_2],
-        city: building_search_params[:city],
-        state: building_search_params[:state],
-        country: building_search_params[:country],
-        zip_code: building_search_params[:zip_code])
+  def search
+    building = Building.find_by(building_search_params)
     if building
       render json: { building: building }, status: 200
     else

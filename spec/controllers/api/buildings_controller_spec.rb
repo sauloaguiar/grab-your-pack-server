@@ -134,7 +134,7 @@ describe Api::BuildingsController, type: :controller do
     context "for an existing address" do
       before do
         @building = create_building
-        get :by_address,
+        get :search,
           {
               address_1: @building.address_1,
               address_2: @building.address_2,
@@ -162,7 +162,7 @@ describe Api::BuildingsController, type: :controller do
           country: Faker::Address.country_code,
           zip_code: Faker::Address.zip
         }
-        get :by_address, @building_attrs
+        get :search, @building_attrs
       end
       it "returns an error message" do
         server_response = json_response

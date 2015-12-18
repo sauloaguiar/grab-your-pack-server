@@ -5,9 +5,6 @@ RSpec.describe Api::UsersController, type: :controller do
   before {
     request.headers['Accept'] = 'application/vnd.grabyourpack'
     key = ApiKey.create!(:access_token => "token")
-    #Token token=<token>
-    #request.headers['Authorization'] = ActionController::HttpAuthentication::Token.encode_credentials(key.access_token)
-    # "Bearer <api-key>"
     request.headers['Authorization'] = "Bearer #{key.access_token}"
   }
 
@@ -106,6 +103,15 @@ RSpec.describe Api::UsersController, type: :controller do
     it "should answer with a 204" do
       expect(response).to have_http_status(204)
     end
+  end
+
+  describe "GET #search" do
+    context "" do
+      before do
+
+      end
+    end
+
   end
 
 end

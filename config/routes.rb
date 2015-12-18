@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     scope constraints: ApiConstraints.new do
 
       # Resource listing under here
-      get 'buildings', :to => "buildings#by_address"
+      get 'buildings', :to => "buildings#search"
       resources :buildings, :only => [:show, :create, :update, :destroy] do
         resources :apartments, :only => [:index]
       end

@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/sauloaguiar/grab-your-pack-server.svg?branch=master)](https://travis-ci.org/sauloaguiar/grab-your-pack-server)
-[![Coverage Status](https://coveralls.io/repos/sauloaguiar/grab-your-pack-server/badge.svg?branch=master&service=github)](https://coveralls.io/github/sauloaguiar/grab-your-pack-server?branch=master)
+{<img src="https://travis-ci.org/sauloaguiar/grab-your-pack-server.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/sauloaguiar/grab-your-pack-server]
+{<img src="https://coveralls.io/repos/sauloaguiar/grab-your-pack-server/badge.svg?branch=HEAD&service=github" alt="Coverage Status" />}[https://coveralls.io/github/sauloaguiar/grab-your-pack-server?branch=HEAD]
 
 == README
 
